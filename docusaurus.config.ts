@@ -60,7 +60,7 @@ const config: Config = {
     // Replace with your project's social card
     image: 'img/mantistable-ui-social-card.png',
     navbar: {
-      title: 'MantisTable UI',
+      title: 'Pucktrick',
       logo: {
         alt: 'MantisTable UI Logo',
         src: 'img/logo.svg',
