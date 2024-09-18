@@ -4,12 +4,12 @@ sidebar_position: 1
 
 # Introduction
 
-Introducing **MantisTable UI**, the ultimate **web interface** for managing **Semantic Table Interpretation (STI)** approaches. Designing a user-friendly, robust UI from scratch can be an arduous endeavor, demanding a unique blend of technical prowess, design acumen, and meticulous attention to detail. MantisTable UI was developed to alleviate this burden, providing an intuitive, ready-to-use 🙀 platform tailored for STI.
+Introducing **Pucktrick**, The definitive library for **introducing a controlled amount of specific errors into datasets**. n various research activities, it is necessary to contaminate a dataset in order to study its effects. However, this task is highly complex and prone to producing datasets with characteristics that diverge from the intended ones, potentially hindering the accurate execution of experiments. Pucktrick was developed to alleviate this burden,defining specific methods for different types of data and errors, allowing users to contaminate a dataset by introducing a known percentage of a specific type of error.
 
-MantisTable UI stands out with its **powerful and flexible plugin system**, enabling users to easily extend and customise its functionality. Whether you are a developer looking to integrate new features or a researcher aiming to adapt the tool to specific use cases, MantisTable UI offers a seamless experience 🦄, allowing for effortless expansion and personalisation.
+Pucktrick offers **a wide range of methods** for contaminating a dataset, and new features will be added based on user requests. 
 
-With MantisTable UI, you can focus on what truly matters—advancing your work in Semantic table Interpretation while enjoying the benefits of a sophisticated, user-centric interface designed to enhance productivity and streamline your workflow 💅. Say goodbye to the complexities of UI development and embrace the efficiency and versatility of MantisTable UI.
+With Pucktrick, you can focus on what truly matters—advancing your work in data-related field, while enjoying the benefits of a sophisticated library designed to enhance productivity and streamline your workflow 💅. Say goodbye to the complexities of dataset contamination  and embrace the efficiency and versatility of Pucktrick.
 
-This manual is designed to comprehensively walk through every aspect of setting up and using MantisTable UI, including every interface function and feature.
+This manual is designed to comprehensively walk through every aspect of setting up and using Pucktrick, including functions and features.
 
-This user manual starts with instructions for [installing or upgrading MantisTable UI on Windows, Mac, and Linux computers](getting-started/installation.md). It then walks you through the interface and how to run MantisTable UI from a command line, with or without setting custom [preferences and modifications](getting-started/configuration.md).
+This user manual starts with instructions for [installing or upgrading Pucktrick](getting-started/installation.md). It then walks you through the library (getting-started/configuration.md).
