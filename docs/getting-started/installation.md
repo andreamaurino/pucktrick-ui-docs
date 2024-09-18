@@ -2,7 +2,7 @@
 sidebar_position: 1
 ---
 
-# Installation
+## Installation
 
 This page will guide you through the installation of the application using Docker.
 
