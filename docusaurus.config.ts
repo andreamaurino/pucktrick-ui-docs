@@ -62,8 +62,8 @@ const config: Config = {
     navbar: {
       title: 'Pucktrick',
       logo: {
-        alt: 'MantisTable UI Logo',
-        src: 'img/logo.svg',
+        alt: 'Pucktrick Logo',
+        src: 'img/pucktricklogo.svg',
       },
       items: [
         {
@@ -71,11 +71,6 @@ const config: Config = {
           sidebarId: 'tutorialSidebar',
           position: 'left',
           label: 'Documentation',
-        },
-        {
-          href: 'https://andreamaurino.github.io/sti-website/',
-          label: 'Our works',
-          position: 'right',
         },
         {
           href: 'https://github.com/andreamaurino/pucktrick',
