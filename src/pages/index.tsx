@@ -62,7 +62,8 @@ export default function Home(): JSX.Element {
               <div className="place-content-center max-w-lg pl-2">
                 <p className=" text-dgBackground dark:text-white sm:text-xl lg:mb-8 md:text-2xl lg:text-3xl">
                   {" "}
-                  Effortless data contamination for data centric AI studies{" "}
+                  Effortless data contamination for 
+				  data centric AI studies{" "}
                 </p>
                 <div className="flex flex-row">
                   <a
