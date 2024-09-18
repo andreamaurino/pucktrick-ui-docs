@@ -72,7 +72,7 @@ export default function Home(): JSX.Element {
                     Learn more <ArrowRight className="ml-2 h-5 w-5" />{" "}
                   </a>
                   <a
-                    href="https://forms.gle/oQ24aYpVZ5B8enXj8"
+                    href="https://forms.gle/cH3QLx8BthskrpE5A"
                     className="text-center inline-flex items-center border-none dark:bg-primaryGreen dark:text-lightBackground  hover:text-dgBackground text-dgBackground font-sm rounded-lg text-sm px-5 py-2.5 me-2 mb-2 bg-secondaryGreen font-semibold"
                   >
                     Feedback and Features request <ExternalLink className="ml-2 h-5 w-5" />{" "}
