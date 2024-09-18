@@ -2,7 +2,7 @@
 sidebar_position: 1
 ---
 
-# Missing Continous
+# Outlier Continous
 
 bla bla lba
 bla bla lba
