@@ -4,7 +4,13 @@ sidebar_position: 1
 
 # Missing Continous
 
-MantisTable UI intagrate a default STI approach: **s-elBat**. If you want to integrate your approach, please follow the instuction in the  page.
+bla bla lba
+bla bla lba
+bla bla lba
+bla bla lba
+bla bla lba
+bla bla lba
+bla bla lba
 
 ## method 1
 
