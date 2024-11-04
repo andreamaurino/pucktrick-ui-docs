@@ -4,7 +4,7 @@ import type * as Preset from '@docusaurus/preset-classic';
 import tailwindPlugin from './plugins/tailwind-plugin.cjs';
 
 const config: Config = {
-  title: 'Pucktrick',
+  title: 'pucktrick',
   tagline: 'Documentation',
   favicon: 'img/favicon.ico',
 
@@ -60,7 +60,7 @@ const config: Config = {
     // Replace with your project's social card
     image: 'img/mantistable-ui-social-card.png',
     navbar: {
-      title: 'Pucktrick',
+      title: 'pucktrick',
       logo: {
         alt: 'Pucktrick Logo',
         src: 'img/pucktricklogo.svg',
