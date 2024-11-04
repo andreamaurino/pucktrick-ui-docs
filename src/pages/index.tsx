@@ -56,7 +56,7 @@ export default function Home(): JSX.Element {
             <div className="justify-center flex flex-col md:flex-row max-w-6xl gap-20 pb-2 mx-auto">
               <img
                 alt="Logo"
-                src="/Pucktrick-ui-docs/img/pucktricklogo.svg"
+                src="/pucktrick-ui-docs/img/pucktricklogo.svg"
                 className="lg:mt-0 lg:col-span-4 lg:flex w-[20rem] object-fit-cover h-auto max-w-full"
               />
               <div className="place-content-center max-w-lg pl-2">
