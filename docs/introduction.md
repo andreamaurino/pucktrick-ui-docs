@@ -12,4 +12,4 @@ With Pucktrick, you can focus on what truly matters—advancing your work in dat
 
 This manual is designed to comprehensively walk through every aspect of setting up and using Pucktrick, including functions and features.
 
-This user manual starts with instructions for [installing or upgrading Pucktrick](getting-started/installation.md). 
+This user manual starts with instructions for [installing or upgrading Pucktrick](getting-started/installation.md).     

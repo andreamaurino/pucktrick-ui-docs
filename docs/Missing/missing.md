@@ -2,11 +2,11 @@
 sidebar_position: 1
 ---
 
-# Missing Continous
+# Missing Utilities
 
 This module provides utilities to inject missing values into a dataset for a specified continuous feature. It is designed to support controlled experimentation with missing data in machine learning workflows
 
-## method missingNew(train_df,column,percentage):
+## `missingNew(train_df,column,percentage)`
 
 Introduces missing values into a specified column of the dataset, starting from a column with no missing values.
 
