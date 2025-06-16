@@ -4,14 +4,7 @@ sidebar_position: 1
 
 # Missing Continous
 
-bla bla lba
-bla bla lba
-bla bla lba
-bla bla lba
-bla bla lba
-bla bla lba
-bla bla lba
-
+This module 
 ## method 1
 
 bla bla lba
