@@ -12,8 +12,8 @@ This is the main news of the version 0.5 of Pucktrick. An error strategy is a js
 5. Distribution type with parameter (if needed)
 
 An example of JSON file is the follows:
-*
+
 'Strategy': {'affected_features': ['marital-status', 'relationship'], 'selection_criteria': 'all', 'percentage': 0.2, 'mode': 'new', 'perturbate_data': {'distribution': 'random'}
-*
+
 
    
