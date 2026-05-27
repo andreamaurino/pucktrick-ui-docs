@@ -2,81 +2,87 @@
 sidebar_position: 1
 ---
 
-# Label Noise Injection Utilities
+# Labels
 
-This module provides functions to simulate mislabeled data, which is useful for evaluating the robustness of classification algorithms under imperfect labeling conditions.
+`labels.py` flips classification labels to simulate mislabeled data. It supports binary and multi-class classification tasks and is useful for evaluating robustness under annotation errors or adversarial mislabeling.
 
-It focuses on **binary** and **categorical** (integer-based) classification tasks. The noise is introduced by deliberately altering the target column in a controlled manner, either starting from a clean dataset or extending existing noise.
+## Function Signature
 
-There are two categories of methods:
-- **`New` methods**: inject label errors into a clean dataset to reach a given percentage.
-- **`Extended` methods**: increase the amount of existing label noise until a target percentage is achieved, using a clean reference version.
+```python
+from pucktrick.labels import labels
 
-These tools help researchers and practitioners simulate real-world conditions, such as annotation errors or adversarial mislabeling.
+error_code, modified_df = labels(df, strategy)
+# or, for mode="extended" / mode="composed":
+error_code, modified_df = labels(df, strategy, original_df=clean_df)
+```
 
----
+## Strategy Parameters
 
-### `wrongLabelsBinaryExtended(original_df, train_df, column, percentage)`
+For multi-class label noise, configure `perturbate_data` with a `noise_model` key:
 
-Adds label noise to a binary classification target column, extending any existing noise until the desired error rate is reached.
+| `noise_model` | Description |
+|---|---|
+| `"NCAR"` (Noise Completely At Random) | Uniform random label flip, independent of class or features. |
+| `"NAR"` (Noise At Random) | Class-dependent flip. Provide a `flip_distribution` in `param`. |
+| `"NNAR"` (Nearest Neighbor At Random) | Flips labels of instances close to decision boundaries. Provide `features_for_similarity` in `param`. |
 
-#### **Parameters**
-- `original_df` (`pd.DataFrame`):  
-  The clean DataFrame used as ground truth reference.
+For binary targets no `noise_model` is needed — labels are flipped 0 ↔ 1.
 
-- `train_df` (`pd.DataFrame`):  
-  The dataset that may already contain some label errors.
+### NCAR Example
 
-- `column` (`str`):  
-  The name of the binary target column (values should be 0 or 1).
+```python
+strategy = {
+    "affected_features": ["label"],
+    "selection_criteria": "all",
+    "percentage": 0.15,
+    "mode": "new",
+    "perturbate_data": {
+        "sampling": "random",
+        "noise_model": "NCAR"
+    }
+}
+```
 
-- `percentage` (`float`):  
-  Final desired proportion (0–1) of incorrect labels.
+### NAR Example
 
----
+```python
+strategy = {
+    "affected_features": ["label"],
+    "selection_criteria": "all",
+    "percentage": 0.15,
+    "mode": "new",
+    "perturbate_data": {
+        "sampling": "random",
+        "noise_model": "NAR",
+        "param": {
+            "flip_distribution": {"0": [0.1, 0.9], "1": [0.8, 0.2], "2": [0.5, 0.3, 0.2]}
+        }
+    }
+}
+```
 
-### `wrongLabelsBinaryNew(train_df, target, percentage)`
+### NNAR Example
 
-Injects new binary label noise into a clean dataset by flipping 0 ↔ 1 in a controlled proportion of rows.
+```python
+strategy = {
+    "affected_features": ["label"],
+    "selection_criteria": "all",
+    "percentage": 0.15,
+    "mode": "new",
+    "perturbate_data": {
+        "sampling": "random",
+        "noise_model": "NNAR",
+        "param": {
+            "features_for_similarity": ["feature1", "feature2", "feature3"]
+        }
+    }
+}
+```
 
-#### **Parameters**
-- `train_df` (`pd.DataFrame`):  
-  The clean dataset to modify.
+## Modes
 
-- `target` (`str`):  
-  The name of the binary target column.
-
-- `percentage` (`float`):  
-  The proportion of values to flip (0–1).
-
----
-
-### `wrongLabelsCategoricalNew(train_df, target, percentage)`
-
-Introduces label noise into a categorical integer target column by replacing a portion of values with other existing category labels.
-
-#### **Parameters**
-- `train_df` (`pd.DataFrame`):  
-  The clean dataset.
-
-- `target` (`str`):  
-  The name of the integer-based target column.
-
-- `percentage` (`float`):  
-  Proportion (0–1) of values to replace with incorrect but valid labels.
-
----
-
-### `wrongLabelsCategoryExtended(train_df, target, percentage)`
-
-Extends existing label noise in a categorical integer target column, replacing additional values with different existing labels until the target error rate is met.
-
-#### **Parameters**
-- `train_df` (`pd.DataFrame`):  
-  Dataset that may already include some incorrect labels.
-
-- `target` (`str`):  
-  The name of the integer-based target column.
-
-- `percentage` (`float`):  
-  Desired final proportion (0–1) of misclassified labels.
+| Mode | Behaviour |
+|---|---|
+| `new` | Injects label noise into a clean dataset up to the specified `percentage`. |
+| `extended` | Adds more label flips to a dataset that may already contain mislabeled rows, reaching the cumulative target. Requires `original_df`. |
+| `composed` | Flips labels only in rows already modified by a previous operator. Requires `original_df`. |

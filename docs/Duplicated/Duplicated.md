@@ -2,88 +2,55 @@
 sidebar_position: 1
 ---
 
-# Data Duplication Utilities
+# Duplicated
 
-This module provides functions to inject **duplicated records** into a dataset. These utilities are useful to simulate real-world issues such as:
+`duplicated.py` injects duplicated records into a dataset. These utilities simulate real-world issues such as data imbalance, bias from oversampling, and noise from repeated observations.
 
-- **Data imbalance**
-- **Bias due to oversampling**
-- **Noise introduced by repeated observations**
+## Function Signature
 
-There are two main strategies:
-- **Global duplication**: Randomly duplicates rows from the whole dataset.
-- **Class-based duplication**: Duplicates rows from a specific class in the target variable.
+```python
+from pucktrick.duplicated import duplicated
 
-Each duplication method is available in two forms:
-- **`New` methods**: Inject new duplicates starting from a clean dataset.
-- **`Extended` methods**: Add additional duplicates to a dataset that may already contain repeated rows, based on a clean reference.
+error_code, modified_df = duplicated(df, strategy)
+# or, for mode="extended" / mode="composed":
+error_code, modified_df = duplicated(df, strategy, original_df=clean_df)
+```
 
----
+## Strategy Parameters
 
-### `duplicateAllNew(train_df, percentage)`
+Set `"function"` at the top level of the strategy to apply a text transformation to the duplicated rows:
 
-Randomly duplicates a percentage of rows from the entire dataset, excluding already existing duplicates.
+| Value | Description |
+|---|---|
+| `"shuffle_words"` | Shuffles the words in string fields |
+| `"abbreviate_text"` | Abbreviates text values |
+| `"replace_punctuation"` | Replaces punctuation characters |
+| `"remove_replace"` | Removes or replaces characters |
+| `"upper_lower"` | Randomly changes case |
 
-#### **Parameters**
-- `train_df` (`pd.DataFrame`):  
-  The input dataset.
+If `"function"` is omitted, rows are duplicated without modification.
 
-- `percentage` (`float`):  
-  Target percentage (0–1) of duplicated rows relative to the original dataset.
+## Example
 
----
+```python
+from pucktrick.duplicated import duplicated
 
-### `duplicateAllExtended(original_df, train_df, percentage)`
+strategy = {
+    "affected_features": ["name", "description"],
+    "selection_criteria": "all",
+    "percentage": 0.10,
+    "mode": "new",
+    "function": "shuffle_words",
+    "perturbate_data": {"sampling": "random"}
+}
 
-Extends the number of duplicated rows in the dataset to reach a specified percentage, using a clean reference dataset to calculate the delta.
+err, df_corrupted = duplicated(df, strategy)
+```
 
-#### **Parameters**
-- `original_df` (`pd.DataFrame`):  
-  The original dataset without duplicates.
+## Modes
 
-- `train_df` (`pd.DataFrame`):  
-  Dataset that may already contain some duplicated rows.
-
-- `percentage` (`float`):  
-  Desired final duplication rate (0–1) based on the original dataset.
-
----
-
-### `duplicateClassNew(train_df, target, value, percentage)`
-
-Duplicates a percentage of rows belonging to a specific class in the dataset.
-
-#### **Parameters**
-- `train_df` (`pd.DataFrame`):  
-  The input dataset.
-
-- `target` (`str`):  
-  Name of the column representing the class/label.
-
-- `value` (`any`):  
-  The specific class value to duplicate.
-
-- `percentage` (`float`):  
-  The proportion of that class’s rows to duplicate (0–1).
-
----
-
-### `duplicateClassExtended(original_df, train_df, target, value, percentage)`
-
-Extends the number of duplicated rows for a specific class until the desired percentage is reached, using the original dataset as a reference.
-
-#### **Parameters**
-- `original_df` (`pd.DataFrame`):  
-  The original clean dataset.
-
-- `train_df` (`pd.DataFrame`):  
-  Dataset that may already contain duplicated rows.
-
-- `target` (`str`):  
-  Name of the column representing the class/label.
-
-- `value` (`any`):  
-  The class value to duplicate.
-
-- `percentage` (`float`):  
-  Desired final duplication rate (0–1) for that class, relative to the clean dataset.
+| Mode | Behaviour |
+|---|---|
+| `new` | Duplicates rows from the clean dataset up to the specified `percentage`. |
+| `extended` | Adds more duplicated rows to a dataset that may already contain repeats, reaching the cumulative target. Requires `original_df`. |
+| `composed` | Duplicates only rows already modified by a previous operator. Requires `original_df`. |

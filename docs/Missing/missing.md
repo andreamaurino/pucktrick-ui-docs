@@ -2,53 +2,44 @@
 sidebar_position: 1
 ---
 
-# Missing Utilities
+# Missing
 
-This module provides utilities to inject missing values into a dataset for a specified continuous feature. It is designed to support controlled experimentation with missing data in machine learning workflows
+`missing.py` replaces values in specified columns with `NaN`. It is designed to support controlled experimentation with missing data in machine learning workflows.
 
-## `missingNew(train_df,column,percentage)`
+## Function Signature
 
-Introduces missing values into a specified column of the dataset, starting from a column with no missing values.
+```python
+from pucktrick.missing import missing
 
-#### **Parameters**
-- `train_df` (`pd.DataFrame`):  
-  The input DataFrame containing the data.
+error_code, modified_df = missing(df, strategy)
+# or, for mode="extended" / mode="composed":
+error_code, modified_df = missing(df, strategy, original_df=clean_df)
+```
 
-- `column` (`str`):  
-  The name of the column in which to insert missing values.
+## Strategy Parameters
 
-- `percentage` (`float`):  
-  The desired percentage of missing values to introduce (between 0 and 1).
+No module-specific parameters are required inside `perturbate_data`. Use the [base strategy parameters](../getting-started/Error.md) to configure which rows and columns to corrupt.
 
-#### **Returns**
-- `pd.DataFrame`:  
-  A copy of the original DataFrame with exactly the specified percentage of `NaN` values inserted into the selected column.
+## Example
 
-#### **Notes**
-- This function assumes that the selected column does **not** contain missing values initially.  
-- If missing values are already present in the column, use `missingExtended'
+```python
+from pucktrick.missing import missing
 
-## `missingExtended(original_df, train_df, column, percentage)`
+strategy = {
+    "affected_features": ["age", "income"],
+    "selection_criteria": "all",
+    "percentage": 0.15,
+    "mode": "new",
+    "perturbate_data": {"sampling": "random"}
+}
 
-Extends the proportion of missing values in a specified column of the dataset to reach a given percentage, starting from a DataFrame that may already contain missing values.
+err, df_corrupted = missing(df, strategy)
+```
 
-#### **Parameters**
-- `original_df` (`pd.DataFrame`):  
-  The original, complete DataFrame without missing values (used to identify all valid data points).
+## Modes
 
-- `train_df` (`pd.DataFrame`):  
-  The current version of the dataset, which may already include missing values in the specified column.
-
-- `column` (`str`):  
-  The name of the column in which to increase the number of missing values.
-
-- `percentage` (`float`):  
-  The target percentage of missing values (between 0 and 1) to be reached in the column.
-
-#### **Returns**
-- `pd.DataFrame`:  
-  A copy of `train_df` with additional `NaN` values added to the specified column so that the total proportion of missing values equals the requested percentage.
-
-#### **Notes**
-- This function is useful when you want to **incrementally introduce missing data** in a column that is already partially missing.
-- The function ensures that the final percentage of missing values is **exactly** as specified, based on the total number of rows in `original_df`.
+| Mode | Behaviour |
+|---|---|
+| `new` | Introduces `NaN` into clean columns up to the specified `percentage`. |
+| `extended` | Incrementally adds `NaN` values to columns that may already contain missing data, reaching the cumulative `percentage` target. Requires `original_df`. |
+| `composed` | Introduces `NaN` only into rows already modified by a previous operator. Requires `original_df`. |

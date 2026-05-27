@@ -2,16 +2,16 @@
 sidebar_position: 1
 ---
 
-## Installation
+# Installation
 
-This page will guide you through the installation of the application using Docker.
+Install Pucktrick via pip:
 
+```bash
+pip install pucktrick
+```
 
-## Installation {#install}
+To upgrade to the latest version:
 
-
-1. **pip install pucktrick** for the first instalment
-
-2. **pip install --upgrade pucktrick** for upgrading to the last version
-
-   
+```bash
+pip install --upgrade pucktrick
+```
