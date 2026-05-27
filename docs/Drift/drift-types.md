@@ -160,24 +160,24 @@ Applies a multiplicative scaling factor to the numeric target variable.
 A unified module supporting all drift types listed above, plus additional specialized types: `conditional`, `offset_time`, `seasonal_shift`, `prior_bool`, `concept_ord_shift`, and others. Use this module when you need to mix multiple drift types in a single pipeline or access drift types not available in the dedicated modules.
 
 ```python
-from pucktrick.drift_generic import run_drift_pipeline
+from pucktrick.drift import drift
 
-drift_df, change_points, ranked_features = run_drift_pipeline(
-    df=df,
-    target_col="target",
-    strategy=strategy,
-    n_chunks=4
-)
+error, df_modified = drift(df, strategy)
 ```
 
 ## Full Pipeline Example
 
 ```python
-from pucktrick.covariate_noise_drift import run_drift_pipeline
+from pucktrick.drift import drift
 
 strategy = {
-    "strategy": {
-        "percentage": 0.35,
+    "affected_features": ["temp", "humidity"],
+    "selection_criteria": "all",
+    "percentage": 0.35,
+    "mode": "new",
+    "perturbate_data": {
+        "sampling": "random",
+        "target_col": "label",
         "chunks": {
             "0": None,
             "1": None,
@@ -199,11 +199,5 @@ strategy = {
     }
 }
 
-drift_df, change_points, ranked_features = run_drift_pipeline(
-    df=df,
-    target_col="label",
-    strategy=strategy,
-    n_chunks=4,
-    random_state=42
-)
+error, df_modified = drift(df, strategy)
 ```

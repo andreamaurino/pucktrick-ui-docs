@@ -15,7 +15,8 @@ The core of Pucktrick is the `strategy` configuration, passed as a JSON object o
   "percentage": 0.2,
   "mode": "new",
   "perturbate_data": {
-    "sampling": "random"
+    "sampling": "random",
+    "distribution":"random"
   }
 }
 ```
@@ -26,12 +27,12 @@ The core of Pucktrick is the `strategy` configuration, passed as a JSON object o
 | `selection_criteria` | string | A predicate (e.g., `"age > 30"`) to target specific rows, or `"all"` for the entire dataset. |
 | `percentage` | float (0.0–1.0) | Proportion of targeted rows to corrupt. |
 | `mode` | string | Accumulation mode: `"new"`, `"extended"`, or `"composed"`. See below. |
-| `perturbate_data` | dict | Noise injection configuration. `sampling` controls row selection: `"random"`, `"uniform"`, `"normal"`, or `"exponential"`. |
+| `perturbate_data` | dict | Noise injection configuration. `sampling` controls row selection: `"random"`, `"uniform"`, `"normal"`, or `"exponential"`.  `distribution` define how select rows to contaminate| 
 
 ## Accumulation Modes
 
 ### `"new"`
-Applies errors independently to the clean baseline dataset. Each call is stateless — the original dataset is not required.
+Applies errors independently to the clean baseline dataset. Each call is stateless, the original dataset is not required.
 
 ### `"extended"`
 Incrementally adds errors to a previously corrupted dataset. Uses `original_df` (the clean baseline) to identify already-modified rows and adds corruption only to unmodified rows, up to the cumulative `percentage` target. No row is corrupted twice.
@@ -75,10 +76,12 @@ from pucktrick.outliers import outlier
 # Step 1 — inject missing values on c1 (20% of rows), mode="new"
 strategy_s1 = {
     "affected_features": ["c1"],
-    "selection_criteria": "c1 == c1",
+    "selection_criteria": "all",
     "percentage": 0.20,
     "mode": "new",
-    "perturbate_data": {"sampling": "random"}
+    "perturbate_data": {
+      "sampling": "random",
+      "distribution":"random"}
 }
 err1, D1 = missing(df, strategy_s1)
 
@@ -86,10 +89,12 @@ err1, D1 = missing(df, strategy_s1)
 # Acts exclusively on the rows already modified by Step 1
 strategy_s2 = {
     "affected_features": ["c2"],
-    "selection_criteria": "c2 == c2",
+    "selection_criteria": "all",
     "percentage": 1.0,
     "mode": "composed",
-    "perturbate_data": {"sampling": "random"}
+    "perturbate_data": {
+      "sampling": "random",
+      "distribution":"random"}
 }
 err2, D2 = outlier(D1, strategy_s2, original_df=df)
 # D2: rows with NaN in c1 coincide exactly with rows with outliers in c2

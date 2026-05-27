@@ -39,7 +39,7 @@ strategy = {
     "selection_criteria": "all",
     "percentage": 0.10,
     "mode": "new",
-    "perturbate_data": {"sampling": "random"}
+    "perturbate_data": {"sampling": "random", "distribution": "random"}
 }
 
 err, df_corrupted = outlier(df, strategy)

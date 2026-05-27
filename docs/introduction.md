@@ -4,7 +4,7 @@ sidebar_position: 1
 
 # Introduction
 
-Introducing **Pucktrick**, the definitive library for **introducing a controlled amount of specific errors into datasets**. The library's name is inspired by Puck, the mischievous elf from Shakespeare's *A Midsummer Night's Dream*, famous for causing trouble and playing tricks — much like the controlled chaos Pucktrick injects into your data.
+ **Pucktrick** is the definitive library for **introducing a controlled amount of specific errors into datasets**. The library's name is inspired by Puck, the mischievous elf from Shakespeare's *A Midsummer Night's Dream*, famous for causing trouble and playing tricks, much like the controlled chaos Pucktrick injects into your data.
 
 In various research activities, it is necessary to contaminate a dataset in order to study its effects. However, this task is highly complex and prone to producing datasets with characteristics that diverge from the intended ones, potentially hindering the accurate execution of experiments. Pucktrick was developed to alleviate this burden, defining specific methods for different types of data and errors, allowing users to contaminate a dataset by introducing a known percentage of a specific type of error.
 
@@ -35,3 +35,4 @@ Simulate temporal dataset drift across segments of a dataset:
 This manual walks through every aspect of setting up and using Pucktrick, including the strategy configuration and all module-specific options.
 
 Start with instructions for [installing or upgrading Pucktrick](getting-started/installation.md).
+ 

@@ -2,6 +2,8 @@ import {themes as prismThemes} from 'prism-react-renderer';
 import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 import tailwindPlugin from './plugins/tailwind-plugin.cjs';
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
 
 const config: Config = {
   title: 'pucktrick',
@@ -36,14 +38,14 @@ const config: Config = {
       {
         docs: {
           sidebarPath: './sidebars.ts',
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
           editUrl:
             'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+          remarkPlugins: [remarkMath],
+          rehypePlugins: [rehypeKatex],
           lastVersion: 'current',
           versions: {
             current: {
-              label: '0.5.0',
+              label: '1.0.0',
               badge :true,
             },
           },
@@ -91,6 +93,13 @@ const config: Config = {
       defaultMode: 'dark'
     },
   } satisfies Preset.ThemeConfig,
+
+  stylesheets: [
+    {
+      href: 'https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css',
+      type: 'text/css',
+    },
+  ],
 
   // Tailwind
   plugins: [tailwindPlugin],

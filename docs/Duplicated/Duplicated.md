@@ -41,7 +41,7 @@ strategy = {
     "percentage": 0.10,
     "mode": "new",
     "function": "shuffle_words",
-    "perturbate_data": {"sampling": "random"}
+    "perturbate_data": {"sampling": "random", "distribution": "random"}
 }
 
 err, df_corrupted = duplicated(df, strategy)

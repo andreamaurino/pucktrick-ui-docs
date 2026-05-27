@@ -6,57 +6,53 @@ sidebar_position: 1
 
 Pucktrick supports simulation of three structurally distinct forms of dataset drift, modelled as temporal corruption policies applied to dataset segments. Drift is useful for evaluating machine learning models under non-stationary data conditions.
 
-## `run_drift_pipeline`
-
-All drift modules expose a `run_drift_pipeline` function with the same interface:
+## Function Signature
 
 ```python
-from pucktrick.<drift_module> import run_drift_pipeline
+from pucktrick.drift import drift
 
-drift_df, change_points, ranked_features = run_drift_pipeline(
-    df=df,
-    target_col="target",
-    strategy=strategy,
-    n_chunks=4,
-    random_state=42
-)
+error, df_modified = drift(df, strategy)
 ```
 
-### Parameters
+Unlike other modules, the `error` return value is a **dictionary**:
 
-| Parameter | Type | Description |
-|---|---|---|
-| `df` | `pd.DataFrame` | The input dataset to corrupt. |
-| `target_col` | `str` | Name of the target column. |
-| `strategy` | `dict` | Strategy dictionary defining drift configuration per chunk. |
-| `n_chunks` | `int` | Number of temporal segments to split the dataset into. |
-| `random_state` | `int` | Random seed for reproducibility. |
-
-### Returns
-
-| Value | Description |
-|---|---|
-| `drift_df` | The corrupted DataFrame with drift applied across segments. |
-| `change_points` | List of row indices where drift transitions occur. |
-| `ranked_features` | Features ranked by drift magnitude. |
+```python
+{
+    "errore": "yes",                     # "yes" if any modification occurred, "no" otherwise
+    "change_points": [100, 200, 300],    # row indices delimiting chunk boundaries
+    "chunks": {
+        "0": {"start": 0,   "end": 100, "drift_applied": False},
+        "1": {"start": 100, "end": 200, "drift_applied": False},
+        "2": {"start": 200, "end": 300, "drift_applied": True},
+        "3": {"start": 300, "end": 400, "drift_applied": True},
+    }
+}
+```
 
 ## Strategy Format
 
-The drift strategy wraps a `"strategy"` key that maps chunk indices to drift configurations. Chunks set to `None` are baseline segments with no drift applied:
+The drift strategy follows the same structure as all other Pucktrick modules. Chunk configurations are placed inside `perturbate_data`:
 
 ```python
 strategy = {
-    "strategy": {
-        "percentage": 0.35,
+    "affected_features": ["f1", "f2"],
+    "selection_criteria": "all",
+    "percentage": 0.35,          # fraction of rows affected per chunk
+    "mode": "new",
+    "perturbate_data": {
+        "sampling": "random",
+        "target_col": "target",  # omit for auto-detection
         "chunks": {
-            "0": None,        # baseline segment, no drift
+            "0": None,           # baseline segment, no drift
             "1": None,
-            "2": { ... },     # drift configuration for segment 2
+            "2": { ... },        # drift configuration for segment 2
             "3": { ... },
         }
     }
 }
 ```
+
+> **Note:** `sampling` and `distribution` parameters inside `perturbate_data` are not used by the drift module — row selection within each chunk is always random and controlled exclusively by `percentage`.
 
 ## Drift Types Summary
 
@@ -69,5 +65,3 @@ strategy = {
 | Label drift (prior shift) | $P(Y)$ changes | `prior_multinomial_drift` | `"prior_multinomial"` |
 | Target scaling | $P(Y)$ changes | `target_scaling_drift` | `"target_scaling"` |
 | Generic (all types) | configurable | `drift_generic` | any |
-
-All modules also accept a `strategy_path` (path to a JSON file) instead of a `strategy` dict.

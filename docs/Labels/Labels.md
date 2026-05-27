@@ -38,6 +38,7 @@ strategy = {
     "mode": "new",
     "perturbate_data": {
         "sampling": "random",
+        "distribution": "random",
         "noise_model": "NCAR"
     }
 }
@@ -53,6 +54,7 @@ strategy = {
     "mode": "new",
     "perturbate_data": {
         "sampling": "random",
+        "distribution": "random",
         "noise_model": "NAR",
         "param": {
             "flip_distribution": {"0": [0.1, 0.9], "1": [0.8, 0.2], "2": [0.5, 0.3, 0.2]}
@@ -71,6 +73,7 @@ strategy = {
     "mode": "new",
     "perturbate_data": {
         "sampling": "random",
+        "distribution": "random",
         "noise_model": "NNAR",
         "param": {
             "features_for_similarity": ["feature1", "feature2", "feature3"]
